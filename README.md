@@ -17,8 +17,8 @@ PlatformIO IDE에서 사용할 수 있도록 재구성하였습니다.
 - Display: 800x480 ST7262
 - Touch: GT911
 
-# LVGL, LovyanGFX 라이브러리 사용 방법
-## 새 프로젝트일 때
+## PlatformIO 설정
+### 빌드할 소스 폴더 변경하기
 platformio.ini 파일을 열고
 `src_dir =` 줄을 모두 주석으로 변경하거나 삭제합니다.
 
@@ -27,9 +27,11 @@ platformio.ini 파일을 열고
 LVGL 설정을 변경하려면 `.\include\lv_conf.h` 파일을 편집하세요.
 
 ## Main Libraries
-- [LVGL](https://github.com/lvgl/lvgl)
+- [LVGL v9.x](https://github.com/lvgl/lvgl)
 - [LovyanGFX](https://github.com/lovyan03/LovyanGFX)
-  
+- [platform-espressif32 v3.x](https://github.com/pioarduino/platform-espressif32)  
+- [Arduino GFX v1.5.x](https://github.com/moononournation/Arduino_GFX/)
+- [GT911 Arduino](https://github.com/TAMCTec/gt911-arduino)
 
 ## References
 - https://github.com/clumsyCoder00/Sunton-ESP32-8048S043
