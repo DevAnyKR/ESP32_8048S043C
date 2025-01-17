@@ -11,6 +11,7 @@ PlatformIO IDE에서 사용할 수 있도록 재구성하였습니다.
 
 - [AliExpress Store 1](https://s.click.aliexpress.com/e/_okKUXX7)
 
+### 사양
 
 - USB: C Type
 - Display: 800x480 ST7262
