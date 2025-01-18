@@ -7,6 +7,8 @@ Arduino IDE는 컴파일 속도가 매우 느리고, 라이브러리 설정이 �
 
 PlatformIO IDE에서 사용할 수 있도록 재구성하였습니다.
 
+![image](https://github.com/user-attachments/assets/46ddff28-963c-4199-ac4e-7ef891369c44)
+
 ### 보드 구입하기
 
 - [AliExpress Store 1](https://s.click.aliexpress.com/e/_okKUXX7)
