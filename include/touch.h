@@ -5,28 +5,17 @@
  * XPT2046: https://github.com/PaulStoffregen/XPT2046_Touchscreen.git
  ******************************************************************************/
 
-/* uncomment for FT6X36 */
-// #define TOUCH_FT6X36
-// #define TOUCH_FT6X36_SCL 19
-// #define TOUCH_FT6X36_SDA 18
-// #define TOUCH_FT6X36_INT 39
-// #define TOUCH_SWAP_XY
-// #define TOUCH_MAP_X1 480
-// #define TOUCH_MAP_X2 0
-// #define TOUCH_MAP_Y1 0
-// #define TOUCH_MAP_Y2 320
-
 /* uncomment for GT911 */
- #define TOUCH_GT911
- #define TOUCH_GT911_SCL 20
- #define TOUCH_GT911_SDA 19
- #define TOUCH_GT911_INT -1
- #define TOUCH_GT911_RST 38
- #define TOUCH_GT911_ROTATION ROTATION_NORMAL
- #define TOUCH_MAP_X1 480
- #define TOUCH_MAP_X2 0
- #define TOUCH_MAP_Y1 272
- #define TOUCH_MAP_Y2 0
+#define TOUCH_GT911
+#define TOUCH_GT911_SCL      20
+#define TOUCH_GT911_SDA      19
+#define TOUCH_GT911_INT      18
+#define TOUCH_GT911_RST      38
+#define TOUCH_GT911_ROTATION ROTATION_NORMAL
+#define TOUCH_MAP_X1         0
+#define TOUCH_MAP_X2         480
+#define TOUCH_MAP_Y1         0
+#define TOUCH_MAP_Y2         272
 
 /* uncomment for XPT2046 */
 // #define TOUCH_XPT2046
@@ -43,75 +32,42 @@
 
 int touch_last_x = 0, touch_last_y = 0;
 
-#if defined(TOUCH_FT6X36)
-#include <Wire.h>
-#include <FT6X36.h>
-FT6X36 ts(&Wire, TOUCH_FT6X36_INT);
-bool touch_touched_flag = true, touch_released_flag = true;
-
-#elif defined(TOUCH_GT911)
-#include <Wire.h>
-#include <TAMC_GT911.h>
+#if defined(TOUCH_GT911)
+#  include <Wire.h>
+#  include <TAMC_GT911.h>
 TAMC_GT911 ts = TAMC_GT911(TOUCH_GT911_SDA, TOUCH_GT911_SCL, TOUCH_GT911_INT, TOUCH_GT911_RST, max(TOUCH_MAP_X1, TOUCH_MAP_X2), max(TOUCH_MAP_Y1, TOUCH_MAP_Y2));
 
 #elif defined(TOUCH_XPT2046)
-#include <XPT2046_Touchscreen.h>
-#include <SPI.h>
+#  include <XPT2046_Touchscreen.h>
+#  include <SPI.h>
 XPT2046_Touchscreen ts(TOUCH_XPT2046_CS, TOUCH_XPT2046_INT);
 
 #endif
 
-#if defined(TOUCH_FT6X36)
-void touch(TPoint p, TEvent e)
-{
-  if (e != TEvent::Tap && e != TEvent::DragStart && e != TEvent::DragMove && e != TEvent::DragEnd)
-  {
-    return;
-  }
-  // translation logic depends on screen rotation
-#if defined(TOUCH_SWAP_XY)
-  touch_last_x = map(p.y, TOUCH_MAP_X1, TOUCH_MAP_X2, 0, gfx->width());
-  touch_last_y = map(p.x, TOUCH_MAP_Y1, TOUCH_MAP_Y2, 0, gfx->height());
-#else
-  touch_last_x = map(p.x, TOUCH_MAP_X1, TOUCH_MAP_X2, 0, gfx->width());
-  touch_last_y = map(p.y, TOUCH_MAP_Y1, TOUCH_MAP_Y2, 0, gfx->height());
-#endif
-  switch (e)
-  {
-  case TEvent::Tap:
-    Serial.println("Tap");
-    touch_touched_flag = true;
-    touch_released_flag = true;
-    break;
-  case TEvent::DragStart:
-    Serial.println("DragStart");
-    touch_touched_flag = true;
-    break;
-  case TEvent::DragMove:
-    Serial.println("DragMove");
-    touch_touched_flag = true;
-    break;
-  case TEvent::DragEnd:
-    Serial.println("DragEnd");
-    touch_released_flag = true;
-    break;
-  default:
-    Serial.println("UNKNOWN");
-    break;
-  }
-}
-#endif
+void touch_init() {
+#if defined(TOUCH_GT911)
+  // Wire.begin(TOUCH_GT911_SDA, TOUCH_GT911_SCL);
+  // ts.begin();
+  // ts.setRotation(TOUCH_GT911_ROTATION);
 
-void touch_init()
-{
-#if defined(TOUCH_FT6X36)
-  Wire.begin(TOUCH_FT6X36_SDA, TOUCH_FT6X36_SCL);
-  ts.begin();
-  ts.registerTouchHandler(touch);
+  // Begin init wire, and Reset the device also, no need wire.begin() to be done here
+  // Wire.begin(TOUCH_GT911_SDA, TOUCH_GT911_SCL);
+  ts.begin(GT911_ADDR1);
 
-#elif defined(TOUCH_GT911)
-  Wire.begin(TOUCH_GT911_SDA, TOUCH_GT911_SCL);
-  ts.begin();
+  // Need to solve floating INT pin so on reset changes between the 2 addresses
+  Wire.beginTransmission(GT911_ADDR1);
+  Wire.write(highByte(GT911_PRODUCT_ID));
+  Wire.write(lowByte(GT911_PRODUCT_ID));
+  Wire.endTransmission();
+  // returns rxLength - if 0 we have a problem
+  uint8_t returnSize = Wire.requestFrom(GT911_ADDR1, (uint8_t)1);
+  if (returnSize == 0) {
+    Serial.println("Setting address to ADDR2");
+    // restart with other address
+    ts.begin(GT911_ADDR2);
+  }
+
+  // Now do your normal job
   ts.setRotation(TOUCH_GT911_ROTATION);
 
 #elif defined(TOUCH_XPT2046)
@@ -122,13 +78,8 @@ void touch_init()
 #endif
 }
 
-bool touch_has_signal()
-{
-#if defined(TOUCH_FT6X36)
-  ts.loop();
-  return touch_touched_flag || touch_released_flag;
-
-#elif defined(TOUCH_GT911)
+bool touch_has_signal() {
+#if defined(TOUCH_GT911)
   return true;
 
 #elif defined(TOUCH_XPT2046)
@@ -139,52 +90,34 @@ bool touch_has_signal()
 #endif
 }
 
-bool touch_touched()
-{
-#if defined(TOUCH_FT6X36)
-  if (touch_touched_flag)
-  {
-    touch_touched_flag = false;
-    return true;
-  }
-  else
-  {
-    return false;
-  }
-
-#elif defined(TOUCH_GT911)
+bool touch_touched() {
+#if defined(TOUCH_GT911)
   ts.read();
-  if (ts.isTouched)
-  {
-#if defined(TOUCH_SWAP_XY)
-    touch_last_x = map(ts.points[0].y, TOUCH_MAP_X1, TOUCH_MAP_X2, 0, gfx->width() - 1);
-    touch_last_y = map(ts.points[0].x, TOUCH_MAP_Y1, TOUCH_MAP_Y2, 0, gfx->height() - 1);
-#else
-    touch_last_x = map(ts.points[0].x, TOUCH_MAP_X1, TOUCH_MAP_X2, 0, gfx->width() - 1);
-    touch_last_y = map(ts.points[0].y, TOUCH_MAP_Y1, TOUCH_MAP_Y2, 0, gfx->height() - 1);
-#endif
+  if (ts.isTouched) {
+#  if (TOUCH_SWAP_XY)
+    touch_last_x = map(ts.points[0].y, TOUCH_MAP_X1, TOUCH_MAP_X2, 0, DISPLAY_WIDTH - 1);
+    touch_last_y = map(ts.points[0].x, TOUCH_MAP_Y1, TOUCH_MAP_Y2, 0, DISPLAY_HEIGHT - 1);
+#  else
+    touch_last_x = map(ts.points[0].x, TOUCH_MAP_X1, TOUCH_MAP_X2, 0, DISPLAY_WIDTH - 1);
+    touch_last_y = map(ts.points[0].y, TOUCH_MAP_Y1, TOUCH_MAP_Y2, 0, DISPLAY_HEIGHT - 1);
+#  endif
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 
 #elif defined(TOUCH_XPT2046)
-  if (ts.touched())
-  {
+  if (ts.touched()) {
     TS_Point p = ts.getPoint();
-#if defined(TOUCH_SWAP_XY)
-    touch_last_x = map(p.y, TOUCH_MAP_X1, TOUCH_MAP_X2, 0, gfx->width() - 1);
-    touch_last_y = map(p.x, TOUCH_MAP_Y1, TOUCH_MAP_Y2, 0, gfx->height() - 1);
-#else
-    touch_last_x = map(p.x, TOUCH_MAP_X1, TOUCH_MAP_X2, 0, gfx->width() - 1);
-    touch_last_y = map(p.y, TOUCH_MAP_Y1, TOUCH_MAP_Y2, 0, gfx->height() - 1);
-#endif
+#  if (TOUCH_SWAP_XY == 1)
+    touch_last_x = map(p.y, TOUCH_MAP_X1, TOUCH_MAP_X2, 0, DISPLAY_WIDTH - 1);
+    touch_last_y = map(p.x, TOUCH_MAP_Y1, TOUCH_MAP_Y2, 0, DISPLAY_HEIGHT - 1);
+#  else
+    touch_last_x = map(p.x, TOUCH_MAP_X1, TOUCH_MAP_X2, 0, DISPLAY_WIDTH - 1);
+    touch_last_y = map(p.y, TOUCH_MAP_Y1, TOUCH_MAP_Y2, 0, DISPLAY_HEIGHT - 1);
+#  endif
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 
@@ -193,20 +126,8 @@ bool touch_touched()
 #endif
 }
 
-bool touch_released()
-{
-#if defined(TOUCH_FT6X36)
-  if (touch_released_flag)
-  {
-    touch_released_flag = false;
-    return true;
-  }
-  else
-  {
-    return false;
-  }
-
-#elif defined(TOUCH_GT911)
+bool touch_released() {
+#if defined(TOUCH_GT911)
   return true;
 
 #elif defined(TOUCH_XPT2046)
