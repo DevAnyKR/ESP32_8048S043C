@@ -7,6 +7,8 @@ Arduino IDE는 컴파일 속도가 매우 느리고, 라이브러리 설정이 �
 
 PlatformIO IDE에서 사용할 수 있도록 재구성하였습니다.
 
+![image](https://github.com/user-attachments/assets/46ddff28-963c-4199-ac4e-7ef891369c44)
+
 ### 보드 구입하기
 
 - [AliExpress Store 1](https://s.click.aliexpress.com/e/_okKUXX7)
@@ -27,11 +29,11 @@ platformio.ini 파일을 열고
 LVGL 설정을 변경하려면 `.\include\lv_conf.h` 파일을 편집하세요.
 
 ## Main Libraries
-- [LVGL v9.x](https://github.com/lvgl/lvgl)
-- [LovyanGFX](https://github.com/lovyan03/LovyanGFX)
-- [platform-espressif32 v3.x](https://github.com/pioarduino/platform-espressif32)  
-- [Arduino GFX v1.5.x](https://github.com/moononournation/Arduino_GFX/)
-- [GT911 Arduino](https://github.com/TAMCTec/gt911-arduino)
+- [LVGL](https://github.com/lvgl/lvgl)@^9.2
+- [platform-espressif32](https://github.com/pioarduino/platform-espressif32)@^3
+- [Arduino GFX](https://github.com/moononournation/Arduino_GFX/)@^1.5
+- [GT911 Arduino](https://github.com/TAMCTec/gt911-arduino)@^1
+- [eez-framework](https://github.com/eez-open/eez-framework)
 
 ## References
 - https://github.com/clumsyCoder00/Sunton-ESP32-8048S043
