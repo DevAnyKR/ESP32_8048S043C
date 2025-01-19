@@ -1103,6 +1103,11 @@
                     "DEFAULT": {
                       "length": 10
                     }
+                  },
+                  "MAIN": {
+                    "DEFAULT": {
+                      "line_color": "#ff0000"
+                    }
                   }
                 }
               },
@@ -1120,7 +1125,7 @@
               "type": "LVGLScaleWidget",
               "left": 0,
               "top": 0,
-              "width": 55,
+              "width": 40,
               "height": 480,
               "customInputs": [],
               "customOutputs": [],
@@ -1160,6 +1165,11 @@
                     "DEFAULT": {
                       "length": 10
                     }
+                  },
+                  "MAIN": {
+                    "DEFAULT": {
+                      "line_color": "#ff0000"
+                    }
                   }
                 }
               },
@@ -1175,7 +1185,7 @@
             {
               "objID": "8f99fd2c-11b2-46be-e093-24f17a334a24",
               "type": "LVGLSliderWidget",
-              "left": 111,
+              "left": 120,
               "top": 160,
               "width": 600,
               "height": 23,
@@ -1268,7 +1278,7 @@
             {
               "objID": "f7322698-6b34-44ab-d5ae-5fac232368a8",
               "type": "LVGLSliderWidget",
-              "left": 111,
+              "left": 120,
               "top": 240,
               "width": 600,
               "height": 23,
@@ -1315,7 +1325,7 @@
             {
               "objID": "0c8197ba-1dc3-46b9-c892-31f915e2163d",
               "type": "LVGLSliderWidget",
-              "left": 111,
+              "left": 120,
               "top": 333,
               "width": 600,
               "height": 23,
@@ -1362,7 +1372,7 @@
             {
               "objID": "db5b8b05-330c-45a2-90b4-7d6f60be6b8b",
               "type": "LVGLSliderWidget",
-              "left": 111,
+              "left": 120,
               "top": 425,
               "width": 600,
               "height": 23,
@@ -1409,7 +1419,7 @@
             {
               "objID": "38bc5db8-a88f-46ca-e523-cd4a42a07fc2",
               "type": "LVGLRollerWidget",
-              "left": 711,
+              "left": 720,
               "top": 40,
               "width": 80,
               "height": 425,
@@ -1453,8 +1463,8 @@
             {
               "objID": "bcba51cd-c997-420b-8885-969d0fe0efcf",
               "type": "LVGLRollerWidget",
-              "left": 29,
-              "top": 28,
+              "left": 40,
+              "top": 32,
               "width": 80,
               "height": 425,
               "customInputs": [],

@@ -23,6 +23,8 @@ typedef struct _objects_t {
     lv_obj_t *spin_hour;
     lv_obj_t *spin_min;
     lv_obj_t *spin_sec;
+    lv_obj_t *obj5;
+    lv_obj_t *obj6;
     lv_obj_t *cursor;
     lv_obj_t *time;
     lv_obj_t *ui_local_time_value;

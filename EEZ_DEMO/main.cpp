@@ -17,10 +17,10 @@ Arduino_ESP32RGBPanel *rgbpanel = new Arduino_ESP32RGBPanel(                    
     8 /* B0 */, 3 /* B1 */, 46 /* B2 */, 9 /* B3 */, 1 /* B4 */,                                            //
     0 /* hsync_polarity */, 8 /* hsync_front_porch */, 4 /* hsync_pulse_width */, 8 /* hsync_back_porch */, //
     0 /* vsync_polarity */, 8 /* vsync_front_porch */, 4 /* vsync_pulse_width */, 8 /* vsync_back_porch */, //
-    0 /* pclk_active_neg */, 16000000L /* prefer_speed */                                                   //
+    0 /* pclk_active_neg */, 15000000L /* prefer_speed */                                                   //
 );
 
-Arduino_RGB_Display *gfx        = new Arduino_RGB_Display(800 /* width */, 480 /* height */, rgbpanel, 2 /* rotation */, true /* auto_flush */);
+Arduino_RGB_Display *gfx        = new Arduino_RGB_Display(DISPLAY_WIDTH /* width */, DISPLAY_HEIGHT /* height */, rgbpanel, 2 /* rotation */, true /* auto_flush */);
 
 /*******************************************************************************
  * End of Arduino_GFX setting
@@ -132,7 +132,7 @@ void setup() {
 #if defined(DIRECT_MODE) && defined(RGB_PANEL)
   disp_draw_buf = (lv_color_t *)gfx->getFramebuffer();
 #else  // !DIRECT_MODE
-  disp_draw_buf = (lv_color_t *)heap_caps_malloc(bufSize * 2, MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT);
+  disp_draw_buf = (lv_color_t *)heap_caps_malloc(bufSize * 2, MALLOC_CAP_INTERNAL | MALLOC_CAP_DMA);
   if (!disp_draw_buf) {
     // remove MALLOC_CAP_INTERNAL flag try again
     disp_draw_buf = (lv_color_t *)heap_caps_malloc(bufSize * 2, MALLOC_CAP_8BIT);

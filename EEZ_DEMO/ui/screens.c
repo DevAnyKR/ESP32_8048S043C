@@ -282,6 +282,7 @@ void create_screen_menu() {
         }
         {
             lv_obj_t *obj = lv_scale_create(parent_obj);
+            objects.obj5 = obj;
             lv_obj_set_pos(obj, 0, 0);
             lv_obj_set_size(obj, 800, 40);
             lv_scale_set_mode(obj, LV_SCALE_MODE_HORIZONTAL_BOTTOM);
@@ -291,11 +292,13 @@ void create_screen_menu() {
             lv_scale_set_label_show(obj, true);
             lv_obj_set_style_length(obj, 5, LV_PART_ITEMS | LV_STATE_DEFAULT);
             lv_obj_set_style_length(obj, 10, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+            lv_obj_set_style_line_color(obj, lv_color_hex(0xffff0000), LV_PART_MAIN | LV_STATE_DEFAULT);
         }
         {
             lv_obj_t *obj = lv_scale_create(parent_obj);
+            objects.obj6 = obj;
             lv_obj_set_pos(obj, 0, 0);
-            lv_obj_set_size(obj, 55, 480);
+            lv_obj_set_size(obj, 40, 480);
             lv_scale_set_mode(obj, LV_SCALE_MODE_VERTICAL_RIGHT);
             lv_scale_set_range(obj, 480, 0);
             lv_scale_set_total_tick_count(obj, 51);
@@ -303,10 +306,11 @@ void create_screen_menu() {
             lv_scale_set_label_show(obj, true);
             lv_obj_set_style_length(obj, 5, LV_PART_ITEMS | LV_STATE_DEFAULT);
             lv_obj_set_style_length(obj, 10, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+            lv_obj_set_style_line_color(obj, lv_color_hex(0xffff0000), LV_PART_MAIN | LV_STATE_DEFAULT);
         }
         {
             lv_obj_t *obj = lv_slider_create(parent_obj);
-            lv_obj_set_pos(obj, 111, 160);
+            lv_obj_set_pos(obj, 120, 160);
             lv_obj_set_size(obj, 600, 23);
             lv_slider_set_value(obj, 25, LV_ANIM_OFF);
         }
@@ -321,31 +325,31 @@ void create_screen_menu() {
         }
         {
             lv_obj_t *obj = lv_slider_create(parent_obj);
-            lv_obj_set_pos(obj, 111, 240);
+            lv_obj_set_pos(obj, 120, 240);
             lv_obj_set_size(obj, 600, 23);
             lv_slider_set_value(obj, 25, LV_ANIM_OFF);
         }
         {
             lv_obj_t *obj = lv_slider_create(parent_obj);
-            lv_obj_set_pos(obj, 111, 333);
+            lv_obj_set_pos(obj, 120, 333);
             lv_obj_set_size(obj, 600, 23);
             lv_slider_set_value(obj, 25, LV_ANIM_OFF);
         }
         {
             lv_obj_t *obj = lv_slider_create(parent_obj);
-            lv_obj_set_pos(obj, 111, 425);
+            lv_obj_set_pos(obj, 120, 425);
             lv_obj_set_size(obj, 600, 23);
             lv_slider_set_value(obj, 25, LV_ANIM_OFF);
         }
         {
             lv_obj_t *obj = lv_roller_create(parent_obj);
-            lv_obj_set_pos(obj, 711, 40);
+            lv_obj_set_pos(obj, 720, 40);
             lv_obj_set_size(obj, 80, 425);
             lv_roller_set_options(obj, "Option 1\nOption 2\nOption 3\nOption 4\nOption 5\nOption 6\nOption 7\nOption 8\nOption 9\nOption 0", LV_ROLLER_MODE_NORMAL);
         }
         {
             lv_obj_t *obj = lv_roller_create(parent_obj);
-            lv_obj_set_pos(obj, 29, 28);
+            lv_obj_set_pos(obj, 40, 32);
             lv_obj_set_size(obj, 80, 425);
             lv_roller_set_options(obj, "Option 1\nOption 2\nOption 3\nOption 4\nOption 5\nOption 6\nOption 7\nOption 8\nOption 9\nOption 0", LV_ROLLER_MODE_NORMAL);
         }
@@ -618,7 +622,7 @@ extern void add_style(lv_obj_t *obj, int32_t styleIndex);
 extern void remove_style(lv_obj_t *obj, int32_t styleIndex);
 
 static const char *screen_names[] = { "Main", "Menu", "GNSS", "Settings" };
-static const char *object_names[] = { "main", "menu", "gnss", "settings", "obj0", "obj1", "icon_gnss", "icon_settings", "obj2", "settings_led_on_color", "obj3", "obj4", "spin_hour", "spin_min", "spin_sec", "cursor", "time", "ui_local_time_value", "arc_hour", "arc_min", "arc_sec", "bat_level", "status_usb_connected", "keyboard" };
+static const char *object_names[] = { "main", "menu", "gnss", "settings", "obj0", "obj1", "icon_gnss", "icon_settings", "obj2", "settings_led_on_color", "obj3", "obj4", "spin_hour", "spin_min", "spin_sec", "obj5", "obj6", "cursor", "time", "ui_local_time_value", "arc_hour", "arc_min", "arc_sec", "bat_level", "status_usb_connected", "keyboard" };
 static const char *style_names[] = { "pageTitle" };
 
 void create_screens() {
