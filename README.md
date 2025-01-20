@@ -28,15 +28,12 @@ platformio.ini 파일을 열고
 
 LVGL 설정을 변경하려면 `.\include\lv_conf.h` 파일을 편집하세요.
 
-## Main Libraries
+## References
 - [LVGL](https://github.com/lvgl/lvgl)@^9.2
 - [platform-espressif32](https://github.com/pioarduino/platform-espressif32)@^3
 - [Arduino GFX](https://github.com/moononournation/Arduino_GFX/)@^1.5
 - [GT911 Arduino](https://github.com/TAMCTec/gt911-arduino)@^1
 - [eez-framework](https://github.com/eez-open/eez-framework)
-
-## References
-- https://github.com/clumsyCoder00/Sunton-ESP32-8048S043
 
 ## License
 MIT
